@@ -10,7 +10,7 @@ enum SINAIS {
     ABRE_PAR, FECHA_PAR,  ABRE_COL,FECHA_COL,ABRE_CHAVE, FECHA_CHAVE, //(,), [,],{,}
     ECOMERCIAL, INV_BAR, EXCLAMACAO, // &, \, !
     BARA, MAIORQ, MENORQ, // \, >,<
-    MAIOR_IG, MENOR_IG, IGUAL, DIFERENCA, OU, AND // >=, <=, ==, !=, ||, &&
+    MAIOR_IG, MENOR_IG, IGUAL, DIFERENCA, OU, AND, // >=, <=, ==, !=, ||, &&
     ASPAS_SIMP, ASPAS_DUP, // ', "
     UNDERSCORE, VIRGULA, COMMENT // _, ,, //
 };
