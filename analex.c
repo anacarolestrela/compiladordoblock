@@ -134,7 +134,6 @@ TOKEN AnaLex(FILE *fd) {
             t.codigo = ASPAS_SIMP;
             return t;
         }          
-        
         else if (c == '\"')
         {
             estado = 16;
@@ -145,9 +144,6 @@ TOKEN AnaLex(FILE *fd) {
         else if (c == '&')
         {
             estado = 17;
-            t.cat = SN;
-            t.codigo = ECOMERCIAL;
-            return t;
         }          
         else if (c == '|')
         {
@@ -159,9 +155,6 @@ TOKEN AnaLex(FILE *fd) {
         else if (c == '<')
         {
             estado = 19;
-            t.cat = SN;
-            t.codigo = MENORQ;
-            return t;
         }              
         else if (c == '>')
         {
@@ -243,6 +236,7 @@ TOKEN AnaLex(FILE *fd) {
                 t.cat = SN;
                 t.codigo = DIVISAO;
                 ungetc(c, fd);
+                return t;
             }
     case 7: if( c == '=')
             {
@@ -266,6 +260,7 @@ TOKEN AnaLex(FILE *fd) {
             } 
             else if (c != '\'' && isprint(c)) {
                 // Caractere imprimível (exceto '\')
+                estado = 31;
                 t.cat = CHARCON;
                 t.valChar = c; // Armazena o caractere na estrutura do token                    return t;
             }
@@ -274,7 +269,7 @@ TOKEN AnaLex(FILE *fd) {
                 break;
     case 16:  if(c == "\"")
             {
-                estado =33;
+                estado =32;
                 t.cat = STRCON;
                 lexema[tamL] = '\0';
                 return t;
@@ -283,7 +278,186 @@ TOKEN AnaLex(FILE *fd) {
             {
                 estado = 16;
                 lexema[tamL] = c; // Anexe o caractere ao lexema
-                lexema[++tamL] = '\0'; // Atualiza o término do lexema            }
-    }
+                lexema[++tamL] = '\0'; // Atualiza o término do lexema            
+            }
+            else
+                error("Caracter invalido na expressao!");
+                break;
+    case 17: if(c == '&')
+            {
+                estado = 33;
+                t.cat = AND;
+                lexema[tamL] = '\0';
+                return t;
+            }    
+            else
+            {
+                estado = 34;
+                t.cat = ECOMERCIAL;
+                lexema[tamL] = '\0';
+                ungetc(c, fd);
+                return t;
+            }
+        case 18: if(c == '|')
+                {
+                    estado = 35;
+                    t.cat = OU;
+                    lexema[tamL] = '\0';
+                    return t;
+                }
+                else
+                    error("Caracter invalido na expressao!");
+                    break;
+        case 19: if(c == '=')
+                {
+                    estado = 36;
+                    t.cat = MAIOR_IG;
+                    lexema[tamL]= '\0';
+                    return t;
+                }
+                else
+                {
+                    estado = 37;
+                    t.cat = MAIORQ;
+                    lexema[tamL] = '\0';
+                    ungetc(c, fd);
+                    return t;
+                }
+                break;
+        case 20: if(c == '=')
+                {
+                    estado = 38;
+                    t.cat = MENOR_IG;
+                    lexema[tamL]= '\0';
+                    return t;
+                }
+                else
+                {
+                    estado = 39;
+                    t.cat = MENORQ;
+                    lexema[tamL] = '\0';
+                    ungetc(c, fd);
+                    return t;
+                }
+                break;
+        case 21: if(c == '=')
+                {
+                    estado = 40;
+                    t.cat = DIFERENCA;
+                    lexema[tamL]= '\0';
+                    return t;
+                }
+                else
+                {
+                    estado = 41;
+                    t.cat = EXCLAMACAO;
+                    lexema[tamL] = '\0';
+                    ungetc(c, fd);
+                    return t;
+                }
+                break;
+        case 22: if(isalpha(c)) 
+                {
+                    estado = 1; 
+                    lexema[tamL] = c;  
+                    lexema[++tamL] = '\0'; 
+                }
+                else
+                    error("Caracter invalido na expressao!");
+                    break;
+        case 24: if (isdigit(c)) 
+                {
+                    estado = 42;
+                    digitos[tamD] = c;
+                    digitos[++tamD] = '\0';
+                }
+                else
+                    error("Caracter invalido na expressao!");
+                    break;
+     /////REVER!!!!!!!!!!!!!!!!!!!!
+        case 26:if(isprint(c))
+            {
+                estado = 26;
+                lexema[tamL] = c; // Anexe o caractere ao lexema
+                lexema[++tamL] = '\0'; // Atualiza o término do lexema            
+            }
+            else if( c == '\\')
+            {
+
+                
+            }
+            break;
+        case 30:if(c == '0')
+                {
+                    estado = 43;
+                    lexema[tamL] = c;
+                    lexema[++tamL] = '\0';
+                }
+                else if(c =='n')
+                {
+                    estado = 44;
+                lexema[tamL] = c;
+                lexema[++tamL] = '\0';
+                }
+                else
+                    error("Caracter invalido na expressao!");
+                    break;  
+        case 31: if(c == '\'')
+                {
+                    estado = 45;
+                    t.cat =CHARCON;
+                    strcpy(t.lexema, lexema);
+                    return t;
+                }  
+                else
+                    error("Caracter invalido na expressao!");
+                    break;
+        case 42: if(isdigit(c))
+                {
+                    estado = 42;
+                    digitos[tamD] = c;
+                    digitos[++tamD] = '\0';        
+                }
+                else
+                {
+                  estado = 46;
+                  t.cat = REALCON;
+                  t.valReal = atof(digitos);
+                  ungetc(c, fd);
+                  return t;  
+                }
+                break;
+        case 43: if(c == '\'')
+                {
+                    estado = 47;
+                    lexema[tamL]= c;
+                    lexema[++tamL]='\0';
+                    t.cat =CHARCON;
+                    t.valChar = '\0';
+                    return t;
+                }
+                else
+                    error("Caracter invalido na expressao!");
+                        break;
+        case 44: if(c =='\'')
+                {
+                    estado = 48;
+                    lexema[tamL]= c;
+                    lexema[++tamL]='\0';
+                    t.cat =CHARCON;
+                    t.valChar = 'n';
+                    return t;
+                }
+                else
+                    error("Caracter invalido na expressao!");
+                    break;
+  }
  }
+}
+
+int main(){
+    FILE *fd;
+    TOKEN TK;
+    if ((fd=fopen("expressao.dat", "r")) == NULL) 
+         error("Arquivo de entrada da expressao nao encontrado!"); 
 }

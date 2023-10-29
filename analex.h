@@ -83,26 +83,25 @@ static const char * const SinaisTable[] = {
 };
 
 static const char * const PRTable[] = {
-    [PG_CHAR] = "CHAR",
-    [PG_INT] = "INT",
-    [PG_FLOAT] = "FLOAT",
-    [PG_BOOL] = "BOOL",
-    [IF] = "IF",
-    [ELSE] = "ELSE",
-    [ELSEIF] = "ELSEIF",
-    [ENDIF] = "ENDIF",
-    [WHILE] = "WHILE",
-    [ENDWHILE] = "ENDWHILE",
-    [RETURN] = "RETURN",
-    [GOBACK] = "GOBACK",
-    [FOR] = "FOR",
-    [TIMES] = "TIMES",
-    [BLOCK] = "BLOCK",
-    [MAIN] = "MAIN",
-    [ENDBLOCK] = "ENDBLOCK",
-    [VARYING] = "VARYING",
-    [FROM] = "FROM"
-    };
+    [PG_CHAR] = "char",
+    [PG_INT] = "int",
+    [PG_FLOAT] = "float",
+    [PG_BOOL] = "bool",
+    [IF] = "if",
+    [ELSE] = "else",
+    [ELSEIF] = "elseif",
+    [ENDIF] = "endif",
+    [WHILE] = "while",
+    [ENDWHILE] = "endwhile",
+    [RETURN] = "return",
+    [GOBACK] = "goback",
+    [FOR] = "for",
+    [TIMES] = "times",
+    [BLOCK] = "block",
+    [MAIN] = "main",
+    [ENDBLOCK] = "endblock",
+    [VARYING] = "varying",
+    [FROM] = "from"
 
 
 #endif
