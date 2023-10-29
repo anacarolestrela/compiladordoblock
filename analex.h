@@ -1,5 +1,10 @@
 #ifndef ANALEX
 #define ANALEX
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <ctype.h> 
+#include <string.h> 
+#include <stdbool.h> 
 
 #define TAM_MAX_LEXEMA 31
 
@@ -12,13 +17,14 @@ enum SINAIS {
     BARA, MAIORQ, MENORQ, // \, >,<
     MAIOR_IG, MENOR_IG, IGUAL, DIFERENCA, OU, AND, // >=, <=, ==, !=, ||, &&
     ASPAS_SIMP, ASPAS_DUP, // ', "
-    UNDERSCORE, VIRGULA, COMMENT // _, ,, //
+    UNDERSCORE, VIRGULA, COMMENT, PONTO // _, ,, //, .
 };
 
 enum PALAVRAS_RESERVADAS {
-    PG_CHAR, PG_INT, PG_FLOAT, PG_BOOL,
+    PR_CHAR, PR_INT, PR_FLOAT, PR_BOOL,
     IF, ELSE, ELSEIF, ENDIF, WHILE, ENDWHILE,
-    RETURN, GOBACK, FOR, TIMES, BLOCK, MAIN, ENDBLOCK
+    RETURN, GOBACK, FOR, TIMES, BLOCK, MAIN, ENDBLOCK,
+    VARYING, FROM
 };
 
 typedef struct {
@@ -41,6 +47,7 @@ static const char * const tokenCatNames[] = {
     [STRCON] = "STRCON",
     [FIM_EXPR] = "FIM_EXPR",
     [FIM_ARQ] = "FIM_ARQ",
+    [PR] = 'PR';//PALAVRA RESERV
 };
 
 static const char * const SinaisTable[] = {
@@ -72,9 +79,10 @@ static const char * const SinaisTable[] = {
     [UNDERSCORE] = "UNDERSCORE",
     [VIRGULA] = "VIRGULA",
     [COMMENT] = "COMMENT",
+    [PONTO] = "PONTO"
 };
 
-static const char * const PGTable[] = {
+static const char * const PRTable[] = {
     [PG_CHAR] = "CHAR",
     [PG_INT] = "INT",
     [PG_FLOAT] = "FLOAT",
@@ -92,7 +100,10 @@ static const char * const PGTable[] = {
     [BLOCK] = "BLOCK",
     [MAIN] = "MAIN",
     [ENDBLOCK] = "ENDBLOCK",
-};
+    [VARYING] = "VARYING",
+    [FROM] = "FROM"
+    };
+
 
 #endif
 
