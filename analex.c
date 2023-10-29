@@ -383,8 +383,7 @@ TOKEN AnaLex(FILE *fd) {
             }
             else if( c == '\\')
             {
-
-                
+                estado = 0;
             }
             break;
         case 30:if(c == '0')

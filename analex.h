@@ -24,7 +24,7 @@ enum PALAVRAS_RESERVADAS {
     PR_CHAR, PR_INT, PR_FLOAT, PR_BOOL,
     IF, ELSE, ELSEIF, ENDIF, WHILE, ENDWHILE,
     RETURN, GOBACK, FOR, TIMES, BLOCK, MAIN, ENDBLOCK,
-    VARYING, FROM
+    VARYING, FROM, CONST, DOWNTO
 };
 
 typedef struct {
@@ -101,9 +101,11 @@ static const char * const PRTable[] = {
     [MAIN] = "main",
     [ENDBLOCK] = "endblock",
     [VARYING] = "varying",
-    [FROM] = "from"
+    [FROM] = "from",
+    [CONST] = "const",
+    [DOWNTO] = "downto"
 
-
+};
 #endif
 
 int contLinha = 1;
