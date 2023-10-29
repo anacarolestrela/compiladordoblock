@@ -1,30 +1,29 @@
 #ifndef ANALEX
 #define ANALEX
-#include <stdio.h> 
-#include <stdlib.h> 
-#include <ctype.h> 
-#include <string.h> 
-#include <stdbool.h> 
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdbool.h>
 
 #define TAM_MAX_LEXEMA 31
 
-enum TOKEN_CAT {ID=1, SN, INTCON, REALCON, CHARCON, STRCON, FIM_EXPR, FIM_ARQ};
+enum TOKEN_CAT {
+    ID = 1, SINAIS, INTCON, REALCON, CHARCON, STRCON, FIM_EXPR, FIM_ARQ, PALAVRAS_RESERVADAS
+};
+
 enum SINAIS {
-    ATRIB = 1, ADICAO, SUBTRACAO, // =, +, - 
-    MULTIPLIC, DIVISAO, //*, /
-    ABRE_PAR, FECHA_PAR,  ABRE_COL,FECHA_COL,ABRE_CHAVE, FECHA_CHAVE, //(,), [,],{,}
-    ECOMERCIAL, INV_BAR, EXCLAMACAO, // &, \, !
-    BARA, MAIORQ, MENORQ, // \, >,<
-    MAIOR_IG, MENOR_IG, IGUAL, DIFERENCA, OU, AND, // >=, <=, ==, !=, ||, &&
-    ASPAS_SIMP, ASPAS_DUP, // ', "
-    UNDERSCORE, VIRGULA, COMMENT, PONTO // _, ,, //, .
+    ATRIB = 1, ADICAO, SUBTRACAO, MULTIPLIC, DIVISAO,
+    ABRE_PAR, FECHA_PAR, ABRE_COL, FECHA_COL, ABRE_CHAVE, FECHA_CHAVE,
+    ECOMERCIAL, INV_BAR, EXCLAMACAO, BARA, MAIORQ, MENORQ, MAIOR_IG, MENOR_IG,
+    IGUAL, DIFERENCA, OU, AND, ASPAS_SIMP, ASPAS_DUP,
+    UNDERSCORE, VIRGULA, COMMENT, PONTO
 };
 
 enum PALAVRAS_RESERVADAS {
-    PR_CHAR, PR_INT, PR_FLOAT, PR_BOOL,
-    IF, ELSE, ELSEIF, ENDIF, WHILE, ENDWHILE,
-    RETURN, GOBACK, FOR, TIMES, BLOCK, MAIN, ENDBLOCK,
-    VARYING, FROM, CONST, DOWNTO
+    PR_CHAR = 1, PR_INT, PR_FLOAT, PR_BOOL, IF, ELSE, ELSEIF, ENDIF, WHILE, ENDWHILE,
+    RETURN, GOBACK, FOR, TIMES, BLOCK, MAIN, ENDBLOCK, VARYING, FROM, CONST, DOWNTO
 };
 
 typedef struct {
@@ -35,22 +34,23 @@ typedef struct {
         int valInt;
         double valReal;
         char valChar;
+        enum PALAVRAS_RESERVADAS palavraReservada;
     };
 } TOKEN;
 
-static const char * const tokenCatNames[] = {
+static const char *const tokenCatNames[] = {
     [ID] = "ID",
-    [SN] = "SN",
+    [SINAIS] = "SINAIS",
     [INTCON] = "INTCON",
     [REALCON] = "REALCON",
     [CHARCON] = "CHARCON",
     [STRCON] = "STRCON",
     [FIM_EXPR] = "FIM_EXPR",
     [FIM_ARQ] = "FIM_ARQ",
-    [PR] = 'PR';//PALAVRA RESERV
+    [PALAVRAS_RESERVADAS] = "PALAVRAS_RESERVADAS"
 };
 
-static const char * const SinaisTable[] = {
+static const char *const SinaisTable[] = {
     [ATRIB] = "ATRIB",
     [ADICAO] = "ADICAO",
     [SUBTRACAO] = "SUBTRACAO",
@@ -82,11 +82,11 @@ static const char * const SinaisTable[] = {
     [PONTO] = "PONTO"
 };
 
-static const char * const PRTable[] = {
-    [PG_CHAR] = "char",
-    [PG_INT] = "int",
-    [PG_FLOAT] = "float",
-    [PG_BOOL] = "bool",
+static const char *const PRTable[] = {
+    [PR_CHAR] = "char",
+    [PR_INT] = "int",
+    [PR_FLOAT] = "float",
+    [PR_BOOL] = "bool",
     [IF] = "if",
     [ELSE] = "else",
     [ELSEIF] = "elseif",
@@ -104,7 +104,6 @@ static const char * const PRTable[] = {
     [FROM] = "from",
     [CONST] = "const",
     [DOWNTO] = "downto"
-
 };
 #endif
 
