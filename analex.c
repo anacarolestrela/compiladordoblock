@@ -296,8 +296,8 @@ TOKEN AnaLex(FILE *fd) {
              else if(isprint(c))
             {
                 estado = 16;
-                lexema[tamL] = c; // Anexe o caractere ao lexema
-                lexema[++tamL] = '\0'; // Atualiza o término do lexema            
+                lexema[tamL] = c; 
+                lexema[++tamL] = '\0';            
             }
             else
             {
@@ -529,7 +529,7 @@ printf("LINHA %d: ", contLinha);
              printf("<REALCON, %f>", tk.valReal);
              break;
         case CHARCON:
-             printf("<CHARCON, %c>", tk.valChar);  // Supondo que valChar contenha o caractere lido
+             printf("<CHARCON, %c>", tk.valChar);  
              break;
         case PALAVRAS_RESERVADAS:
              printf("<PALAVRAS_RESERVADAS, %s>", PRTable[tk.codigo]);
