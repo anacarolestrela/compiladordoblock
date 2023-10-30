@@ -23,7 +23,7 @@ enum SINAIS {
 
 enum PALAVRAS_RESERVADAS {
     PR_CHAR = 1, PR_INT, PR_FLOAT, PR_BOOL, IF, ELSE, ELSEIF, ENDIF, WHILE, ENDWHILE,
-    RETURN, GOBACK, FOR, TIMES, BLOCK, MAIN, ENDBLOCK, VARYING, FROM, CONST, DOWNTO
+    RETURN, GOBACK, FOR, TIMES, BLOCK, MAIN, ENDBLOCK, VARYING, FROM, CONST, DOWNTO, DO, WITH
 };
 
 typedef struct {
@@ -103,7 +103,9 @@ static const char *const PRTable[] = {
     [VARYING] = "varying",
     [FROM] = "from",
     [CONST] = "const",
-    [DOWNTO] = "downto"
+    [DOWNTO] = "downto",
+    [DO] = "do",
+    [WITH] "with"
 };
 #endif
 

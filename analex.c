@@ -13,12 +13,15 @@ void error(char msg[]) {
 }
 
 int buscaPR(char lexema[]) {
-size_t i;  
-for (i = 1; i < (sizeof(PRTable)) / (sizeof(PRTable[0])); i++)
-  {
-    if (stricmp(lexema, PRTable[i]) == 0) return i;
-  }
-  return -1;
+    size_t i;  
+    for (i = 1; i < (sizeof(PRTable)) / (sizeof(PRTable[0])); i++)
+    {
+        if (stricmp(lexema, PRTable[i]) == 0)
+        {
+        return i;
+        } 
+    }
+    return -1;
   }
 
 TOKEN AnaLex(FILE *fd) {
@@ -33,7 +36,12 @@ TOKEN AnaLex(FILE *fd) {
 
   while (true) 
   { 
-    char c = fgetc(fd); 
+    char c = fgetc(fd);
+    if (c == '\n') 
+    {
+        contLinha++; // incrementa o contador de linha quando encontra '\n'
+        printf("\nLINHA %d: ", contLinha); // imprime a nova linha
+    } 
     switch (estado) 
     { 
 
@@ -74,6 +82,8 @@ TOKEN AnaLex(FILE *fd) {
         else if (c == '/')
         {
             estado = 6;
+            lexema[tamL] = c;
+            lexema[++tamL]= '\0';
         }    
         else if (c == '=')
         {
@@ -131,16 +141,10 @@ TOKEN AnaLex(FILE *fd) {
         else if (c == '\'')
         {
             estado = 15;
-            t.cat = SINAIS;
-            t.codigo = ASPAS_SIMP;
-            return t;
         }          
         else if (c == '\"')
         {
             estado = 16;
-            t.cat = SINAIS;
-            t.codigo = ASPAS_DUP;
-            return t;
         }          
         else if (c == '&')
         {
@@ -174,9 +178,8 @@ TOKEN AnaLex(FILE *fd) {
         else if (c == '_')
         {
             estado = 22;
-            t.cat = SINAIS;
-            t.codigo = UNDERSCORE;
-            return t;
+            lexema[tamL] = c;
+            lexema[++tamL]= '\0';
         }             
         else if (c == EOF)
         {
@@ -195,12 +198,14 @@ TOKEN AnaLex(FILE *fd) {
                 lexema[++tamL]= '\0';
             }
             else
-            {
+            {   ungetc(c,fd);
                 estado = 23;
-                int tokenCategory = buscaPR(lexema);
-                if (tokenCategory != -1)
-                {
-                    t.cat = tokenCategory;
+                int pr_indice = buscaPR(lexema);
+                if (pr_indice >=0 )
+                {   
+                    t.cat = PALAVRAS_RESERVADAS;
+                    t.codigo = pr_indice;
+                    //printf("eh pr , %s", PRTable[t.codigo]);
                 }
                 else
                 {
@@ -233,7 +238,9 @@ TOKEN AnaLex(FILE *fd) {
             break;
     case 6: if( c == '/')
             {
-                estado = 26;
+            estado = 26;
+            lexema[tamL] = c;
+            lexema[++tamL]= '\0';
                 
             }
             else
@@ -263,14 +270,14 @@ TOKEN AnaLex(FILE *fd) {
             break;
     case 15:if (c == '\\') 
             {
-                // Transição para o estado 30 (caractere de escape)
                    estado = 30;
             } 
             else if (c != '\'' && isprint(c)) {
                 // Caractere imprimível (exceto '\')
                 estado = 31;
                 t.cat = CHARCON;
-                t.valChar = c; // Armazena o caractere na estrutura do token                    return t;
+                t.valChar = c;                   
+                return t;
             }
             else
             {
@@ -280,8 +287,10 @@ TOKEN AnaLex(FILE *fd) {
     case 16:  if(c == '\"')
             {
                 estado =32;
+                lexema[tamL] = c;
+                lexema[++tamL] = '\0';
                 t.cat = STRCON;
-                lexema[tamL] = '\0';
+                strcpy(t.lexema,lexema);
                 return t;
             }
              else if(isprint(c))
@@ -382,6 +391,7 @@ TOKEN AnaLex(FILE *fd) {
                     error("Caracter invalido na expressao!");
                 }
                 break;
+
         case 24: if (isdigit(c)) 
                 {
                     estado = 42;
@@ -396,8 +406,8 @@ TOKEN AnaLex(FILE *fd) {
      /////REVER!!!!!!!!!!!!!!!!!!!!
         case 26:if(isprint(c) && c !='\\')
             {
-                estado = 26;
-                lexema[tamL] = c; // Anexe o caractere ao lexema
+                estado = 26; 
+                lexema[tamL] = c; // anexa o caractere ao lexema
                 lexema[++tamL] = '\0'; // Atualiza o término do lexema            
             }
             else if( c == '\\')
@@ -419,6 +429,7 @@ TOKEN AnaLex(FILE *fd) {
                 lexema[tamL] = c;
                 lexema[++tamL] = '\0';
                 }
+                
                 else
                 {
                     error("Caracter invalido na expressao!");
@@ -471,7 +482,7 @@ TOKEN AnaLex(FILE *fd) {
                     lexema[tamL]= c;
                     lexema[++tamL]='\0';
                     t.cat =CHARCON;
-                    t.valChar = 'n';
+                    t.valChar = '\n';
                     return t;
                 }
                 else
@@ -479,6 +490,17 @@ TOKEN AnaLex(FILE *fd) {
                     error("Caracter invalido na expressao!");
                 }
                 break;
+        case 49: if (c == '\n')
+                 {
+                    estado = 0;
+                    ungetc(c, fd);
+                    
+                 }
+                 else
+                 {
+                    estado =49;
+                 }
+        
   }
  }
 }
@@ -509,12 +531,12 @@ printf("LINHA %d: ", contLinha);
         case CHARCON:
              printf("<CHARCON, %c>", tk.valChar);  // Supondo que valChar contenha o caractere lido
              break;
+        case PALAVRAS_RESERVADAS:
+             printf("<PALAVRAS_RESERVADAS, %s>", PRTable[tk.codigo]);
+             break;        
         case STRCON:
             printf("<STRCON, \"%s\">", tk.lexema);
-            break;        
-        case PALAVRAS_RESERVADAS:
-             printf("PALAVRAS_RESERVADAS, %s", PRTable[tk.codigo]);
-             break;
+            break;  
         case FIM_EXPR: printf("<FIM_EXPR, %d>\n", 0); 
              printf("LINHA %d: ", contLinha); 
              break;       
