@@ -16,7 +16,7 @@ int buscaPR(char lexema[]) {
     size_t i;  
     for (i = 1; i < (sizeof(PRTable)) / (sizeof(PRTable[0])); i++)
     {
-        if (stricmp(lexema, PRTable[i]) == 0)
+        if (strcmp(lexema, PRTable[i]) == 0)
         {
         return i;
         } 
@@ -153,9 +153,6 @@ TOKEN AnaLex(FILE *fd) {
         else if (c == '|')
         {
             estado = 18;
-            t.cat = SINAIS;
-            t.codigo = BARA;
-            return t;
         }
         else if (c == '<')
         {
@@ -164,16 +161,11 @@ TOKEN AnaLex(FILE *fd) {
         else if (c == '>')
         {
             estado = 20;
-            t.cat = SINAIS;
-            t.codigo = MAIORQ;
-            return t;
         }
         else if (c == '!')
         {
             estado = 21;
-            t.cat = SINAIS;
-            t.codigo = EXCLAMACAO;
-            return t;
+
         }
         else if (c == '_')
         {
@@ -307,15 +299,15 @@ TOKEN AnaLex(FILE *fd) {
     case 17: if(c == '&')
             {
                 estado = 33;
-                t.cat = AND;
-                lexema[tamL] = '\0';
+                t.cat = SINAIS;
+                t.codigo = AND;
                 return t;
             }    
             else
             {
                 estado = 34;
-                t.cat = ECOMERCIAL;
-                lexema[tamL] = '\0';
+                t.cat = SINAIS;
+                t.codigo = ECOMERCIAL;
                 ungetc(c, fd);
                 return t;
             }
@@ -323,27 +315,28 @@ TOKEN AnaLex(FILE *fd) {
         case 18: if(c == '|')
                 {
                     estado = 35;
-                    t.cat = OU;
-                    lexema[tamL] = '\0';
+                    t.cat = SINAIS;
+                    t.codigo = OU;
                     return t;
                 }
-                else
-                {
-                    error("Caracter invalido na expressao!");
-                }
+                estado = 35;
+                t.cat = SINAIS;
+                t.codigo = BARA;
+                ungetc(c, fd);
+                return t;
                 break;
         case 19: if(c == '=')
                 {
                     estado = 36;
-                    t.cat = MAIOR_IG;
-                    lexema[tamL]= '\0';
+                    t.cat = SINAIS;
+                    t.codigo = MAIOR_IG;
                     return t;
                 }
                 else
                 {
                     estado = 37;
-                    t.cat = MAIORQ;
-                    lexema[tamL] = '\0';
+                    t.cat = SINAIS;
+                    t.codigo = MAIORQ;
                     ungetc(c, fd);
                     return t;
                 }
@@ -351,15 +344,15 @@ TOKEN AnaLex(FILE *fd) {
         case 20: if(c == '=')
                 {
                     estado = 38;
-                    t.cat = MENOR_IG;
-                    lexema[tamL]= '\0';
+                    t.cat = SINAIS;
+                    t.codigo = MENOR_IG;
                     return t;
                 }
                 else
                 {
                     estado = 39;
-                    t.cat = MENORQ;
-                    lexema[tamL] = '\0';
+                    t.cat = SINAIS;
+                    t.codigo = MENORQ;
                     ungetc(c, fd);
                     return t;
                 }
@@ -367,15 +360,15 @@ TOKEN AnaLex(FILE *fd) {
         case 21: if(c == '=')
                 {
                     estado = 40;
-                    t.cat = DIFERENCA;
-                    lexema[tamL]= '\0';
+                    t.cat = SINAIS;
+                    t.codigo = DIFERENCA;
                     return t;
                 }
                 else
                 {
                     estado = 41;
-                    t.cat = EXCLAMACAO;
-                    lexema[tamL] = '\0';
+                    t.cat = SINAIS;
+                    t.codigo = EXCLAMACAO;
                     ungetc(c, fd);
                     return t;
                 }

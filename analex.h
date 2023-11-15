@@ -105,7 +105,7 @@ static const char *const PRTable[] = {
     [CONST] = "const",
     [DOWNTO] = "downto",
     [DO] = "do",
-    [WITH] "with"
+    [WITH] = "with"
 };
 #endif
 
