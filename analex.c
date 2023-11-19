@@ -39,8 +39,10 @@ TOKEN AnaLex(FILE *fd) {
     char c = fgetc(fd);
     if (c == '\n') 
     {
+        estado = 0;
+        t.cat = FIM_EXPR;
         contLinha++; // incrementa o contador de linha quando encontra '\n'
-        printf("\nLINHA %d: ", contLinha); // imprime a nova linha
+        return t;
     } 
     switch (estado) 
     { 
@@ -190,15 +192,14 @@ TOKEN AnaLex(FILE *fd) {
                 lexema[++tamL]= '\0';
             }
             else
-            {   ungetc(c,fd);
+            { 
                 estado = 23;
                 int pr_indice = buscaPR(lexema);
                 if (pr_indice >=0 )
                 {   
                     t.cat = PALAVRAS_RESERVADAS;
                     t.codigo = pr_indice;
-                    //printf("eh pr , %s", PRTable[t.codigo]);
-                    //printf("%d", t.codigo);
+
                 }
                 else
                 {
