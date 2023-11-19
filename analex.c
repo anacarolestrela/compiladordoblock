@@ -198,12 +198,14 @@ TOKEN AnaLex(FILE *fd) {
                     t.cat = PALAVRAS_RESERVADAS;
                     t.codigo = pr_indice;
                     //printf("eh pr , %s", PRTable[t.codigo]);
+                    //printf("%d", t.codigo);
                 }
                 else
                 {
-                    t.cat = ID;
-                }
+                t.cat = ID;
                 strcpy(t.lexema, lexema);
+                }
+
                 return t;
             }
                 break;
