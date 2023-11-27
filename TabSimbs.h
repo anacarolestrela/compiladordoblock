@@ -38,5 +38,7 @@ extern TAB_IDENTIF tabIdentif;
 
 void IniciaTabIdentif();
 int BuscaTabIdetif(char []);
+int BuscaTabIdetifBlock(char []) ;
 int InsereTabIdentif(char [], int, int, int, bool, bool, bool, int);
-#endif 
+
+#endif

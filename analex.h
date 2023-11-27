@@ -125,6 +125,6 @@ extern int contLinha;  // Contador de linhas do código fonte
 
 #endif
 /* Assinaturas de funcoes */
-int contLinha = 1;
+//int contLinha = 1;
 TOKEN AnaLex(FILE *);
 TOKEN AnaLexTLA(FILE *);

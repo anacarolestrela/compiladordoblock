@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "AnaLex.h"
+#include "analex.h"
 #include "anasint.h"
 #include "Funcaux.h"
 
@@ -23,7 +23,7 @@ void Prog()
     while(t.cat == PALAVRAS_RESERVADAS &&( t.codigo = PR_INT || t.codigo == PR_CHAR || t.codigo == PR_FLOAT ||  
     t.codigo == PR_BOOL || t.codigo == CONST))
     {
-      decl_list_var();
+      Decl_list_var();
     }
     if(t.cat!= PALAVRAS_RESERVADAS || t.codigo!= BLOCK)
     { 
@@ -32,16 +32,16 @@ void Prog()
     t = AnaLex(fd);
     while(t.cat == ID)
     {
-        catId == BLK;
+        catId = BLK;
         strcpy(nomeId, t.lexema);
         escopo =GLOBAL;
         InsereTabIdentif(nomeId, catId, escopo, tipo, t_const, zombie, ref, parametros);
         strcpy(blockAux, t.lexema);
         t =AnaLex(fd);
-        decl_block_prot();
+        Decl_block_prot();
         if(t.cat != PALAVRAS_RESERVADAS && t.codigo  ==  BLOCK)
         {
-         erro(2);        
+         Erro(2);        
         }
         t = AnaLex(fd);
     }
@@ -76,7 +76,7 @@ void Decl_list_var()
 }
 
 //decl_block_prot ::= block id [with [&] tipo { [ ] } { , [&] tipo { [ ] } }]
-void Dec_block_prot()
+void Decl_block_prot()
 {
 
     if(t.cat ==PALAVRAS_RESERVADAS && t.codigo == WITH)
@@ -143,7 +143,7 @@ void Block_main()
     {
         Decl_list_var();
     }
-    while (t.cat == ID || t.cat ==PALAVRAS_RESERVADAS && (t.codigo == DO|| t.codigo == IF || t.codigo == WHILE || t.codigo == GOBACK || t.codigo == GETINT || t.codigo == GETREAL || t.codigo == GETCHAR || t.codigo == PUTINT || t.codigo == PUTREAL || t.codigo == PUTCHAR))
+    while (t.cat == ID ||( t.cat ==PALAVRAS_RESERVADAS && (t.codigo == DO|| t.codigo == IF || t.codigo == WHILE || t.codigo == GOBACK || t.codigo == GETINT || t.codigo == GETREAL || t.codigo == GETCHAR || t.codigo == PUTINT || t.codigo == PUTREAL || t.codigo == PUTCHAR)))
     {
         Cmd();
     }
@@ -226,7 +226,7 @@ void Block_def()
     }
 
     strcpy(blockAux, t.lexema);
-    int i = BuscaTabIdetifBlk(blockAux);
+    int i = BuscaTabIdetifBlock(blockAux);
     i++;
     t =AnaLex(fd);
     if(t.cat == PALAVRAS_RESERVADAS && t.codigo == WITH)
@@ -247,7 +247,7 @@ void Block_def()
                 Erro(5);
             }
             t=AnaLex(fd);
-            if(t.cat != SinaisTable ||  t.codigo != FECHA_COL)
+            if(t.cat != SINAIS ||  t.codigo != FECHA_COL)
             {
                 Erro(2);
 
@@ -272,7 +272,7 @@ void Block_def()
                 Erro(5);
             }
             t=AnaLex(fd);
-            if(t.cat != SinaisTable ||  t.codigo != FECHA_COL)
+            if(t.cat != SINAIS ||  t.codigo != FECHA_COL)
             {
                 Erro(2);
 
@@ -303,14 +303,14 @@ void Cmd()
         t = AnaLex(fd);
         if(t.cat ==ID)
         {
-            if(lookahead.cat == SINAIS && lookahead.codigo == ABRE_COL || lookahead.codigo == ATRIB)
+            if(lookahead.cat == SINAIS && (lookahead.codigo == ABRE_COL || lookahead.codigo == ATRIB))
             {
                 Cmd();
             }
             else
             {
                 t =AnaLex(fd);
-                if(t.cat = PALAVRAS_RESERVADAS && t.codigo ==WITH)
+                if(t.cat == PALAVRAS_RESERVADAS && t.codigo == WITH)
                 {
                     t =AnaLex(fd);
                     if(t.cat != ID)
@@ -351,7 +351,7 @@ void Cmd()
             }
             t=AnaLex(fd);
             Expr();
-            if (t.cat!=PALAVRAS_RESERVADAS || t.codigo != TO && t.codigo != DOWNTO)
+            if (t.cat!=PALAVRAS_RESERVADAS || (t.codigo != TO && t.codigo != DOWNTO))
             {
                 Erro(10);//esperando to ou downto
             }
@@ -436,7 +436,7 @@ void Cmd()
     }else if (t.cat == PALAVRAS_RESERVADAS && t.codigo == GOBACK)
     {
         t=AnaLex(fd);
-    }else if (t.cat ==PALAVRAS_RESERVADAS && t.codigo == GETINT || t.codigo ==GETREAL || t.codigo == GETCHAR|| t.codigo == PUTINT || t.codigo == PUTREAL||t.codigo == PUTCHAR )
+    }else if (t.cat ==PALAVRAS_RESERVADAS &&( t.codigo == GETINT || t.codigo ==GETREAL || t.codigo == GETCHAR|| t.codigo == PUTINT || t.codigo == PUTREAL||t.codigo == PUTCHAR ))
     {
         if (t.cat != ID)
         {
@@ -446,7 +446,7 @@ void Cmd()
         
     }else
     {
-        Erro(12);//esperando imputs ou outputs
+        Erro(12);//esperando inputs ou outputs
     }
 }
 
@@ -494,7 +494,7 @@ void Expr()
 // [+ | – ] termo {(+ | – | ||) termo}
 void Expr_simp()
 {
-    if(t.cat == SINAIS && t.codigo == ADICAO || t.codigo == SUBTRACAO)
+    if(t.cat == SINAIS &&( t.codigo == ADICAO || t.codigo == SUBTRACAO))
     {
         t = AnaLex(fd);
     }

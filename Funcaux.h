@@ -5,8 +5,9 @@
 
 enum MOVIM {AVANCA, MANTEM, RETROCEDE};
 
-extern bool mostraArvore;
-extern char TABS[200];
+// extern bool mostraArvore;
+// extern char TABS[200];
+// extern int contLinha;
 extern int contLinha;
 
 void Erro(int codigoErro);

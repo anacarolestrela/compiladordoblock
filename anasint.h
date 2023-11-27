@@ -17,7 +17,7 @@ extern char TABS[200];
 
 void Prog();
 void Decl_list_var();
-void Dec_block_prot();
+void Decl_block_prot();
 void Block_main();
 void Decl_var();
 void Tipo();
