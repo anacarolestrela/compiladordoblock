@@ -58,6 +58,7 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
     "*.embeddedhtml": "html",
-    "analex.h": "c"
+    "analex.h": "c",
+    "anasint.h": "c"
   }
 }

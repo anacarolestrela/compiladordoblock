@@ -23,7 +23,7 @@ enum SINAIS {
 
 enum PALAVRAS_RESERVADAS {
     PR_CHAR = 1, PR_INT, PR_FLOAT, PR_BOOL, IF, ELSE, ELSEIF, ENDIF, WHILE, ENDWHILE,
-    RETURN, GOBACK, FOR, TIMES, BLOCK, MAIN, ENDBLOCK, VARYING, FROM, CONST, DOWNTO, DO, WITH, GETINT, GETREAL, GETCHAR, PUTINT, PUTREAL, PUTCHAR
+    RETURN, GOBACK, FOR, TIMES, BLOCK, MAIN, ENDBLOCK, VARYING, FROM, CONST, DOWNTO, DO, WITH, GETINT, GETREAL, GETCHAR, PUTINT, PUTREAL, PUTCHAR, TO
 };
 
 typedef struct {
@@ -80,6 +80,7 @@ static const char *const SinaisTable[] = {
     [VIRGULA] = "VIRGULA",
     [COMMENT] = "COMMENT",
     [PONTO] = "PONTO"
+    
 };
 
 static const char *const PRTable[] = {
@@ -111,8 +112,19 @@ static const char *const PRTable[] = {
     [GETCHAR] = "getchar", 
     [PUTINT] = "putint", 
     [PUTREAL] = "putreal", 
-    [PUTCHAR] = "putchar"
+    [PUTCHAR] = "putchar",
+    [TO] = "to"
+    
 };
-#endif
 
+/* Variaveis globais */
+extern TOKEN t;
+extern TOKEN lookahead;
+extern FILE *fd;
+extern int contLinha;  // Contador de linhas do código fonte 
+
+#endif
+/* Assinaturas de funcoes */
 int contLinha = 1;
+TOKEN AnaLex(FILE *);
+TOKEN AnaLexTLA(FILE *);
