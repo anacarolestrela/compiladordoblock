@@ -11,7 +11,6 @@ void IniciaTabIdentif()
 
 int BuscaTabIdetif(char nomeId[]) 
 {
-
     int i;
 
     for (i=0; i<tabIdentif.tamTab; i++) 
@@ -24,7 +23,6 @@ int BuscaTabIdetif(char nomeId[])
 
 int BuscaTabIdetifBlock(char nomeId[]) 
 {
-
     int i;
 
     for (i=0; i<tabIdentif.tamTab; i++) 

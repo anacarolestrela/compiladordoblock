@@ -29,5 +29,7 @@ void Expr_simp();
 void Termo();
 void Fator();
 void Op_rel();
-void Erro(int codigoErro);
+
+
+
 #endif

@@ -187,7 +187,6 @@ void Decl_var()
 
     }
     
-
 }
 
 
@@ -215,10 +214,6 @@ void Tipo()
     {
         tipo= T_BOOL;
     }
-    
-    
-    
-
 }
 
 //block_def ::= block id [with tipo id1{ [intcon1 | idconst1] } { , tipo id2 { [intcon2| idconst2] } }] {decl_list_var} { cmd } endblock
@@ -254,7 +249,7 @@ void Block_def()
             t=AnaLex(fd);
             if(t.cat != SinaisTable ||  t.codigo != FECHA_COL)
             {
-                Erro(10);
+                Erro(2);
 
             }
             t = AnaLex(fd);   
@@ -279,7 +274,7 @@ void Block_def()
             t=AnaLex(fd);
             if(t.cat != SinaisTable ||  t.codigo != FECHA_COL)
             {
-                Erro(10);
+                Erro(2);
 
             }
             t = AnaLex(fd);   
@@ -453,9 +448,6 @@ void Cmd()
     {
         Erro(12);//esperando imputs ou outputs
     }
-    
-
-
 }
 
 // atrib ::= id { [ expr ] } = expr
@@ -540,7 +532,7 @@ void Fator()
             Expr();
             if(t.cat != SINAIS && t.codigo != FECHA_COL)
             {
-                Erro(6);
+                Erro(2);
             }
             t = AnaLex(fd);
         } 
@@ -569,7 +561,6 @@ void Fator()
     {
         Erro(7);
     }
-    
 
 }
 

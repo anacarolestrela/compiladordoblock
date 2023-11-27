@@ -9,9 +9,11 @@ extern bool mostraArvore;
 extern char TABS[200];
 extern int contLinha;
 
-void erro(char msg[]);
-void PrintNodo(char info[], int movim);
-void PrintNodoInt(int val, int movim);
+void Erro(int codigoErro);
+
+// void erro(char msg[]);
+// void PrintNodo(char info[], int movim);
+// void PrintNodoInt(int val, int movim);
 
 
 #endif
