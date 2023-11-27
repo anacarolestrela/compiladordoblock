@@ -17,7 +17,7 @@ typedef
       char nomeId[TAM_MAX_LEXEMA];
       int ender;
       int catId; 
-      int escopo; // GLOBAL, LOCAL
+      int escopo;
       int tipo;
       bool t_const;
       bool zombie;
